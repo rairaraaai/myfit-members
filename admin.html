@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マイフィット 管理画面</title>
+<style>
+  body{font-family:-apple-system,'Hiragino Sans',sans-serif;background:#FAF7F1;padding:20px;color:#39433F;max-width:720px;margin:0 auto;}
+  h2{color:#5F9E93;margin-bottom:6px;}
+  h3{color:#39433F;margin:26px 0 10px;border-bottom:2px solid #8FBFB6;padding-bottom:6px;}
+  input{font-size:16px;padding:10px;box-sizing:border-box;border:1px solid #E4E0D6;border-radius:10px;margin-bottom:10px;}
+  button{font-size:14px;padding:9px 16px;border:none;border-radius:999px;background:#5F9E93;color:#fff;font-weight:700;cursor:pointer;}
+  button.danger{background:#E8A27C;}
+  button.ghost{background:#fff;color:#5F9E93;border:1px solid #8FBFB6;}
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px;}
+  th,td{border:1px solid #E4E0D6;padding:8px;text-align:left;}
+  th{background:#8FBFB6;color:#fff;}
+  .stat{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;}
+  .stat div{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:12px 18px;text-align:center;}
+  .stat b{display:block;font-size:22px;color:#5F9E93;}
+  .msg{color:#c0392b;font-size:13px;}
+  .row{display:flex;gap:8px;}
+  .row input{flex:1;}
+  .newcode{background:#E4F0EC;border:1px dashed #5F9E93;border-radius:10px;padding:10px 14px;margin:10px 0;font-size:14px;}
+  .badge{padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;}
+  .badge.on{background:#E4F0EC;color:#5F9E93;}
+  .badge.off{background:#f3e2da;color:#c0392b;}
+  #app{display:none;}
+</style>
+</head>
+<body>
+<h2>📋 マイフィット 管理画面</h2>
+
+<div id="gate">
+  <p>管理キーを入力してください</p>
+  <input type="password" id="keyInput" style="width:100%;">
+  <button onclick="login()">ログイン</button>
+  <p id="gateMsg" class="msg"></p>
+</div>
+
+<div id="app">
+  <h3>👤 会員管理</h3>
+  <div class="row">
+    <input type="text" id="newMemberName" placeholder="会員さんの名前(例:さくらさん)">
+    <button onclick="addMember()">コード発行</button>
+  </div>
+  <div id="newCodeBox"></div>
+  <div id="memberList"></div>
+
+  <h3>📊 視聴ログ</h3>
+  <div id="watchStats"></div>
+  <div id="watchList"></div>
+</div>
+
+<script>
+let ADMIN_KEY = '';
+
+async function login(){
+  const key = document.getElementById('keyInput').value;
+  const res = await fetch('/api/members?key=' + encodeURIComponent(key));
+  if(!res.ok){
+    document.getElementById('gateMsg').textContent = 'キーが違います';
+    return;
+  }
+  ADMIN_KEY = key;
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadMembers();
+  loadWatchLogs();
+}
+
+async function loadMembers(){
+  const res = await fetch('/api/members?key=' + encodeURIComponent(ADMIN_KEY));
+  const members = await res.json();
+  const activeCount = members.filter(m=>m.active).length;
+  let html = `<div class="stat"><div><b>${activeCount}</b>有効な会員</div><div><b>${members.length}</b>登録した会員(累計)</div></div>`;
+  html += '<table><tr><th>名前</th><th>コード</th><th>状態</th><th>操作</th></tr>';
+  members.forEach(m=>{
+    html += `<tr>
+      <td>${m.name}</td>
+      <td>${m.code}</td>
+      <td><span class="badge ${m.active?'on':'off'}">${m.active?'有効':'無効'}</span></td>
+      <td>
+        ${m.active
+          ? `<button class="danger" onclick="setActive('${m.code}', false)">無効化</button>`
+          : `<button class="ghost" onclick="setActive('${m.code}', true)">再有効化</button>`
+        }
+        <button class="ghost" onclick="deleteMember('${m.code}')">削除</button>
+      </td>
+    </tr>`;
+  });
+  html += '</table>';
+  document.getElementById('memberList').innerHTML = html;
+}
+
+async function addMember(){
+  const name = document.getElementById('newMemberName').value.trim();
+  if(!name) return;
+  const res = await fetch('/api/members?key=' + encodeURIComponent(ADMIN_KEY), {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({name})
+  });
+  const data = await res.json();
+  document.getElementById('newCodeBox').innerHTML =
+    `<div class="newcode">✅ <b>${data.name}</b> さんのコード: <b style="font-size:18px;">${data.code}</b>(このコードを本人に伝えてください)</div>`;
+  document.getElementById('newMemberName').value = '';
+  loadMembers();
+}
+
+async function setActive(code, active){
+  await fetch('/api/members?key=' + encodeURIComponent(ADMIN_KEY), {
+    method: 'PATCH',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({code, active})
+  });
+  loadMembers();
+}
+
+async function deleteMember(code){
+  if(!confirm('本当に削除しますか?(視聴ログは残ります)')) return;
+  await fetch('/api/members?key=' + encodeURIComponent(ADMIN_KEY), {
+    method: 'DELETE',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({code})
+  });
+  loadMembers();
+}
+
+async function loadWatchLogs(){
+  const res = await fetch('/api/admin-data?key=' + encodeURIComponent(ADMIN_KEY));
+  if(!res.ok) return;
+  const data = await res.json();
+  const uniqueNames = new Set(data.map(r=>r.name));
+  document.getElementById('watchStats').innerHTML =
+    `<div class="stat"><div><b>${data.length}</b>総視聴回数</div><div><b>${uniqueNames.size}</b>視聴した人数</div></div>`;
+  if(data.length === 0){
+    document.getElementById('watchList').innerHTML = '<p>まだ記録がありません</p>';
+    return;
+  }
+  let html = '<table><tr><th>日時</th><th>お名前</th><th>動画</th></tr>';
+  data.slice(0, 100).forEach(r=>{
+    const d = new Date(r.timestamp);
+    const dateStr = `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
+    html += `<tr><td>${dateStr}</td><td>${r.name}</td><td>${r.title || r.videoId}</td></tr>`;
+  });
+  html += '</table>';
+  document.getElementById('watchList').innerHTML = html;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>マイフィット MEMBERS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF7F1;
+    --card:#FFFFFF;
+    --teal:#8FBFB6;
+    --teal-deep:#5F9E93;
+    --teal-pale:#E4F0EC;
+    --clay:#E8A27C;
+    --clay-pale:#FBE8DB;
+    --ink:#39433F;
+    --ink-soft:#7A8480;
+    --line:#E4E0D6;
+    --radius:22px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:"Noto Sans JP", sans-serif;
+    display:flex;
+    justify-content:center;
+  }
+  .phone{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    background:var(--cream);
+    position:relative;
+    padding-bottom:92px;
+  }
+  h1,h2,h3,.brand{
+    font-family:"Zen Maru Gothic", sans-serif;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    padding:22px 20px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .brand{
+    font-weight:900;
+    font-size:20px;
+    letter-spacing:0.02em;
+    color:var(--teal-deep);
+  }
+  .brand span{color:var(--clay);}
+  .avatar{
+    width:38px;height:38px;border-radius:50%;
+    background:linear-gradient(135deg,var(--teal),var(--teal-deep));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:15px;font-weight:700;
+    font-family:"Zen Maru Gothic",sans-serif;
+  }
+
+  .screen{ display:none; padding:0 20px; animation:fadeIn .35s ease; }
+  .screen.active{ display:block; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- Notice ---------- */
+  .notice{
+    background:var(--teal-pale);
+    border-radius:16px;
+    padding:14px 16px;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin-bottom:18px;
+    border:1px solid #d6e8e3;
+  }
+  .notice .dot{
+    flex:none;width:20px;height:20px;border-radius:50%;
+    background:var(--teal-deep); color:#fff; font-size:12px;
+    display:flex;align-items:center;justify-content:center; font-weight:700;
+    margin-top:1px;
+  }
+  .notice p{margin:0; font-size:13.5px; line-height:1.7; color:var(--ink);}
+  .notice b{color:var(--teal-deep);}
+
+  /* ---------- Section label ---------- */
+  .section-label{
+    display:flex; align-items:center; gap:10px;
+    margin:22px 0 12px;
+  }
+  .section-label::before, .section-label::after{
+    content:""; flex:1; height:1px; background:var(--line);
+  }
+  .section-label span{
+    font-family:"Zen Maru Gothic",sans-serif;
+    font-size:14px; font-weight:700; color:var(--ink-soft);
+    white-space:nowrap;
+  }
+
+  /* ---------- Home category grid ---------- */
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .cat-btn{
+    background:linear-gradient(180deg,var(--teal),var(--teal-deep));
+    color:#fff; border:none; border-radius:999px;
+    padding:16px 10px; font-family:"Zen Maru Gothic",sans-serif;
+    font-size:15px; font-weight:700; letter-spacing:.03em;
+    box-shadow:0 6px 14px rgba(95,158,147,0.28);
+  }
+  .cat-btn:active{ transform:scale(.97); }
+  .cat-btn.alt{ background:linear-gradient(180deg,#F3C7A4,var(--clay)); box-shadow:0 6px 14px rgba(232,162,124,.32); }
+
+  /* ---------- Video cards ---------- */
+  .tabs{ display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; margin-bottom:16px; scrollbar-width:none; }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{
+    flex:none; padding:8px 16px; border-radius:999px; font-size:13px;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    background:#fff; color:var(--ink-soft); border:1px solid var(--line);
+    white-space:nowrap;
+  }
+  .tab.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+  .vcard{
+    background:var(--card); border-radius:var(--radius);
+    margin-bottom:16px; overflow:hidden; border:1px solid var(--line);
+  }
+  .vthumb{
+    position:relative; height:150px;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff;
+  }
+  .vthumb .tags{ position:absolute; top:10px; right:10px; display:flex; flex-direction:column; gap:5px; align-items:flex-end;}
+  .vthumb .tag{ background:rgba(255,255,255,.92); color:var(--ink); font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; }
+  .vthumb .dur{
+    position:absolute; bottom:10px; right:10px;
+    background:rgba(255,255,255,.95); color:var(--teal-deep);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900;
+    border-radius:50%; width:46px; height:46px;
+    display:flex; align-items:center; justify-content:center; font-size:12px;
+  }
+  .vthumb .title{
+    position:absolute; left:14px; bottom:12px; right:70px;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:19px; line-height:1.35;
+    text-shadow:0 2px 8px rgba(0,0,0,.18);
+  }
+  .vbody{ padding:14px 16px 16px; }
+  .vbody p{ margin:0 0 10px; font-size:13px; color:var(--ink-soft); line-height:1.7; }
+  .vfoot{ display:flex; justify-content:space-between; align-items:center; }
+  .check-btn{
+    border:1.5px solid var(--teal); background:#fff; color:var(--teal-deep);
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:700; font-size:12.5px;
+    padding:7px 14px; border-radius:999px; display:flex; gap:6px; align-items:center;
+  }
+  .check-btn.done{ background:var(--teal-deep); color:#fff; }
+  .try-btn{
+    background:var(--clay); color:#fff; border:none;
+    font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:12.5px;
+    padding:8px 18px; border-radius:999px;
+  }
+
+  /* ---------- Schedule ---------- */
+  .cal-card{ background:var(--card); border-radius:var(--radius); border:1px solid var(--line); padding:16px; margin-bottom:18px; }
+  .cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .cal-head button{ background:none; border:none; font-size:20px; color:var(--teal-deep); padding:4px 8px; }
+  .cal-month{ font-family:"Zen Maru Gothic",sans-serif; font-weight:900; font-size:17px; color:var(--ink); }
+  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:5px; text-align:center; }
+  .cal-grid .dow{ font-size:11px; color:var(--ink-soft); font-weight:700; padding-bottom:4px; }
+  .cal-grid .day{ position:relative; padding:8px 0; font-size:13px; border-radius:10px; color:var(--ink); }
+  .cal-grid .day.blank{ visibility:hidden; }
+  .cal-grid .day.lesson{ background:var(--teal-pale); font-weight:700; color:var(--teal-deep); }
+  .cal-grid .day.limit{ background:var(--clay-pale); font-weight:900; color:var(--clay); }
+  .cal-legend{ display:flex; gap:14px; margin-top:12px; font-size:11.5px; color:var(--ink-soft); }
+  .cal-legend span{ display:flex; align-items:center; gap:5px; }
+  .dotlg{ width:9px;height:9px;border-radius:50%; }
+
+  .lesson-item{
+    background:var(--card); border-radius:18px; border:1px solid var(--line);
+    padding:14px 16px; margin-bottom:12px; display:flex; gap:12px; align-items:center;
+  }
+  .lesson-item .date-chip{
+    flex:none; width:52px; height:52px; border-radius:14px;
+    background:var(--teal-pale); color:var(--teal-deep);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-family:"Zen Maru Gothic",sans-serif;
+  }
+  .date-chip .d{ font-size:18px; font-weight:900; line-height:1; }
+  .date-chip .m{ font-size:10px; }
+  .lesson-item .info b{ display:block; font-size:14px; margin-bottom:2px; }
+  .lesson-item .info span{ font-size:12px; color:var(--ink-soft); }
+
+  /* ---------- notes screen ---------- */
+  .empty{ text-align:center; padding:60px 20px; color:var(--ink-soft); }
+  .empty .big{ font-size:34px; margin-bottom:10px; }
+
+  /* ---------- bottom nav ---------- */
+  .bottomnav{
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:430px;
+    background:#fff; border-top:1px solid var(--line);
+    display:flex; justify-content:space-around; align-items:center;
+    padding:10px 4px calc(10px + env(safe-area-inset-bottom));
+    z-index:20;
+  }
+  .navbtn{
+    background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:3px;
+    color:var(--ink-soft); font-size:10.5px; font-family:"Zen Maru Gothic",sans-serif; font-weight:700;
+    padding:4px 8px;
+  }
+  .navbtn .ic{ font-size:20px; }
+  .navbtn.active{ color:var(--teal-deep); }
+
+  .fade-title{ font-size:22px; font-weight:900; margin:4px 0 4px; }
+  .sub{ font-size:13px; color:var(--ink-soft); margin:0 0 14px; }
+</style>
+</head>
+<body>
+<div id="nameGate" style="position:fixed;inset:0;background:rgba(250,247,241,0.97);z-index:999;display:flex;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#fff;border-radius:20px;padding:24px;max-width:340px;width:100%;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.12);">
+    <p style="font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:18px;margin-bottom:10px;">ようこそ、マイフィットへ🌱</p>
+    <p style="font-size:13px;color:#7A8480;margin-bottom:16px;">まいまいさんから受け取った<b>会員コード</b>を入力してください</p>
+    <input id="codeInput" type="text" placeholder="例:AB12CD" style="width:100%;padding:10px;border-radius:10px;border:1px solid #E4E0D6;margin-bottom:12px;font-size:15px;box-sizing:border-box;text-transform:uppercase;">
+    <button onclick="submitCode()" style="width:100%;padding:10px;border:none;border-radius:999px;background:linear-gradient(180deg,#8FBFB6,#5F9E93);color:#fff;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:15px;">はじめる</button>
+    <p id="gateMsg" style="font-size:12px;color:#c0392b;margin-top:10px;min-height:16px;"></p>
+  </div>
+</div>
+<script>
+  async function verifyCode(code){
+    try{
+      const res = await fetch('/api/check-code', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({code})
+      });
+      if(!res.ok) return {ok:false};
+      return await res.json();
+    }catch(e){
+      return {ok:false, offline:true};
+    }
+  }
+
+  async function checkAccessOnLoad(){
+    let saved = null;
+    try{ saved = JSON.parse(localStorage.getItem('myfit_member') || 'null'); }catch(e){}
+    if(!saved || !saved.code) return; // ゲートは表示されたまま
+    const result = await verifyCode(saved.code);
+    if(result.ok){
+      document.getElementById('nameGate').style.display='none';
+    } else if(result.offline){
+      // オフライン時は前回の認証を尊重して通す(通信できないだけで会員体験を止めないため)
+      document.getElementById('nameGate').style.display='none';
+    } else {
+      localStorage.removeItem('myfit_member');
+      document.getElementById('gateMsg').textContent = 'アクセスが無効になりました。まいまいさんにご確認ください。';
+    }
+  }
+
+  async function submitCode(){
+    const val = document.getElementById('codeInput').value.trim().toUpperCase();
+    const msgEl = document.getElementById('gateMsg');
+    if(!val) return;
+    msgEl.style.color = '#7A8480';
+    msgEl.textContent = '確認中…';
+    const result = await verifyCode(val);
+    if(result.ok){
+      localStorage.setItem('myfit_member', JSON.stringify({code: val, name: result.name}));
+      document.getElementById('nameGate').style.display='none';
+    } else {
+      msgEl.style.color = '#c0392b';
+      msgEl.textContent = 'コードが無効です。まいまいさんに確認してください。';
+    }
+  }
+
+  checkAccessOnLoad();
+</script>
+<div class="phone">
+
+  <div class="topbar">
+    <div class="brand">マイ<span>フィット</span></div>
+    <div class="avatar" id="avatarInit">M</div>
+  </div>
+
+  <!-- ============ HOME ============ -->
+  <section class="screen active" id="screen-home">
+    <div class="notice">
+      <div class="dot">!</div>
+      <p><b>8月のzoomレッスン</b>は 8/8(土) 9:00〜10:00 です。アーカイブ視聴期限は <b>8/11</b> まで。</p>
+    </div>
+
+    <div class="section-label"><span>カテゴリ</span></div>
+    <div class="grid2">
+      <button class="cat-btn" onclick="showVideos('全身')">全身</button>
+      <button class="cat-btn" onclick="showVideos('上半身')">上半身</button>
+      <button class="cat-btn" onclick="showVideos('下半身')">下半身</button>
+      <button class="cat-btn" onclick="showVideos('お悩み別')">お悩み別</button>
+      <button class="cat-btn alt" onclick="showVideos('ラジオ')">ラジオ</button>
+      <button class="cat-btn alt" onclick="go('qa')">質問ボックス</button>
+    </div>
+
+    <div class="section-label"><span>NEW 新着動画</span></div>
+    <div id="homeNewVideo"></div>
+  </section>
+
+  <!-- ============ VIDEOS ============ -->
+  <section class="screen" id="screen-videos">
+    <h2 class="fade-title">動画一覧</h2>
+    <p class="sub">気分やお悩みに合わせて選んでね</p>
+    <div class="tabs" id="tabRow"></div>
+    <div id="videoList"></div>
+  </section>
+
+  <!-- ============ SCHEDULE ============ -->
+  <section class="screen" id="screen-schedule">
+    <h2 class="fade-title">スケジュール</h2>
+    <p class="sub">zoomレッスン・アーカイブ視聴期限</p>
+
+    <div class="cal-card">
+      <div class="cal-head">
+        <button onclick="changeMonth(-1)">‹</button>
+        <div class="cal-month" id="calMonthLabel">2026年 8月</div>
+        <button onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-legend">
+        <span><i class="dotlg" style="background:var(--teal-pale)"></i>zoomレッスン</span>
+        <span><i class="dotlg" style="background:var(--clay-pale)"></i>アーカイブ期限</span>
+      </div>
+    </div>
+
+    <div class="section-label"><span>今後の予定</span></div>
+    <div class="lesson-item">
+      <div class="date-chip"><div class="d">8</div><div class="m">AUG</div></div>
+      <div class="info"><b>zoomレッスン(全身)</b><span>9:00〜10:00・前半/後半だけの参加もOK</span></div>
+    </div>
+    <div class="lesson-item">
+      <div class="date-chip"><div class="d">11</div><div class="m">AUG</div></div>
+      <div class="info"><b>アーカイブ視聴期限</b><span>この日の23:59まで見逃し配信を視聴できます</span></div>
+    </div>
+  </section>
+
+  <!-- ============ MYPAGE ============ -->
+  <section class="screen" id="screen-mypage">
+    <h2 class="fade-title">マイページ</h2>
+    <p class="sub">視聴した動画があなたのペースを教えてくれます</p>
+    <div id="mypageStats"></div>
+    <div class="section-label"><span>視聴した動画(回数が多い順)</span></div>
+    <div id="watchedList"></div>
+  </section>
+
+  <!-- ============ Q&A ============ -->
+  <section class="screen" id="screen-qa">
+    <button class="tab" style="margin-bottom:14px;" onclick="go('home')">‹ ホームに戻る</button>
+    <h2 class="fade-title">質問ボックス</h2>
+    <p class="sub">匿名でいただいた質問と回答をご紹介しています(個人的な内容のものは掲載していません)</p>
+    <div id="qaList"></div>
+  </section>
+
+  <div class="bottomnav">
+    <button class="navbtn active" data-tab="home" onclick="go('home')"><span class="ic">🏠</span>ホーム</button>
+    <button class="navbtn" data-tab="videos" onclick="go('videos')"><span class="ic">🎬</span>動画</button>
+    <button class="navbtn" data-tab="schedule" onclick="go('schedule')"><span class="ic">📅</span>予定</button>
+    <button class="navbtn" data-tab="mypage" onclick="go('mypage')"><span class="ic">🌱</span>マイページ</button>
+  </div>
+</div>
+
+<script>
+const GRADIENTS = {
+  '全身':'linear-gradient(135deg,#8FBFB6,#5F9E93)',
+  '上半身':'linear-gradient(135deg,#A7CFE0,#6FA3BE)',
+  '下半身':'linear-gradient(135deg,#C9B6E4,#8E76BE)',
+  'お悩み別':'linear-gradient(135deg,#F3C7A4,#E8A27C)',
+  'ラジオ':'linear-gradient(135deg,#B8C98A,#8FA85C)'
+};
+
+const VIDEOS = [
+  {id:'v1', cat:'上半身', title:'猫背・背中すっきりケア', dur:'7分', tags:['呼吸','肩回し','肩甲骨'],
+   desc:'普段自分で見れない「背中」。背中がガチガチだと猫背にも反り腰にも影響があるよ！ほぐしケアの上半身とセットで行うのもおすすめ☆'},
+  {id:'v2', cat:'全身', title:'筋膜ほぐし・ねじれケア', dur:'4分', tags:['つまむ','ゆらす','ねじれ取り'],
+   desc:'ガチガチな身体だと本当に動かしたいところが動けず代わりに自分の癖で動いてしまいやすい‥！まずは緩めて◎ガチガチ→フワフワの土台を作っていこう！'},
+  {id:'v3', cat:'全身', title:'有酸素運動−格闘技−', dur:'5分', tags:['脂肪燃焼','引き締め','体力向上'],
+   desc:'有酸素運動の効果は・脂肪燃焼・引き締め・体力向上。格闘技の動きでひと汗かこう♪'},
+  {id:'v4', cat:'下半身', title:'股関節集中トレーニング', dur:'5分', tags:['太もも前','お尻上側','腰まわり'],
+   desc:'太もも前や外側がパンパンになる人必見！股関節を正しく使い、お尻を目覚めさせよう◎'},
+  {id:'v5', cat:'全身', title:'基本の呼吸トレーニング', dur:'8分', tags:['お腹の呼吸','胸の呼吸'],
+   desc:'全ての土台！まずはここから◎呼吸が変わると身体が変わる！'},
+  {id:'v6', cat:'全身', title:'お腹強化バランス', dur:'6分', tags:['ミニボール使用'],
+   desc:'体幹集中！全身をコントロールしながら強くしなやかなお腹づくり！ミニボール使用☆'},
+  {id:'v7', cat:'全身', title:'お腹と背骨両方使おう(転がるピラティス)', dur:'5分', tags:['体幹','背骨'],
+   desc:'お腹だけが強くても背骨だけが柔らかくても‥できない！お腹と背骨を同時に使えるトレーニング★'},
+  {id:'v8', cat:'全身', title:'寝ながらできる整え運動', dur:'25分', tags:['じっくり'],
+   desc:'寝ながら◎(少し起き上がるけど) じっくり30分、身体を整えたいときに！'},
+  {id:'v9', cat:'全身', title:'全身じっくりストレッチ', dur:'10分', tags:['ストレッチ'],
+   desc:'前半-下半身 後半-上半身。まんべんなく伸ばせるストレッチ。お疲れ気味の時におすすめ。'},
+  {id:'v10', cat:'上半身', title:'テニスボールほぐし', dur:'', tags:['ほぐし'],
+   desc:'テニスボールを使って身体をほぐすよ！痛いところは硬いところ！じっくりほぐしてみてね◎'},
+  {id:'v11', cat:'上半身', title:'筋膜ほぐし上半身トレ', dur:'12分', tags:['ほぐし','呼吸','背中・肩'],
+   desc:'まいまいおすすめの「横隔膜呼吸」をマスターすると見た目も機能も変わる◎ガチガチ上半身を動かしてしなやかBODYへ！'},
+  {id:'v12', cat:'下半身', title:'美脚・ヒップアップ', dur:'15分', tags:['足ねじり','お尻','もも前','お腹'],
+   desc:'脚のねじれ取り お尻の活性化！続けると美脚が叶う☆'},
+  {id:'v13', cat:'下半身', title:'骨盤・お尻正しく使う', dur:'5分', tags:['骨盤','お尻'],
+   desc:'骨盤周り〜お尻。前半の動きは寝かしつけや寝る前に◎布団の中でも出来て、腰回りの張りが取れるよ〜！'},
+  {id:'v14', cat:'お悩み別', title:'お悩み別-腰痛-(3種目)', dur:'10分', tags:['腰痛'],
+   desc:'腰痛持ちさんにぜひやってほしい！腰が痛い=腰が悪いではなく、動いて欲しい場所を丁寧に動かすよ！'},
+  {id:'v15', cat:'お悩み別', title:'小顔トレーニング', dur:'7分', tags:['頭皮ほぐし','目元','小顔'],
+   desc:'頭皮も繋がっている！ほぐしてから動かしてみてね！スッキリするよ☆'},
+];
+
+let currentCat = '全身';
+let calYear = 2026, calMonth = 7; // 0-indexed month => August=7
+const LESSON_DAYS = [8];
+const LIMIT_DAYS = [11];
+
+function go(tab){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+tab).classList.add('active');
+  const navTabs = ['home','videos','schedule','mypage'];
+  if(navTabs.includes(tab)){
+    document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
+  }
+  if(tab==='videos') renderVideos();
+  if(tab==='schedule') renderCalendar();
+  if(tab==='mypage') renderMypage();
+  if(tab==='qa') renderQA();
+}
+
+function showVideos(cat){ currentCat = cat; go('videos'); }
+
+function formatDate(d){
+  return `${d.getMonth()+1}/${d.getDate()}`;
+}
+
+function videoCardHTML(v, log){
+  log = log || [];
+  const count = log.length;
+  const recent = log.slice(-5).reverse().map(d=>formatDate(new Date(d))).join('・');
+  return `
+  <div class="vcard">
+    <div class="vthumb" style="background:${GRADIENTS[v.cat]}">
+      <div class="tags">${v.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      ${v.dur ? `<div class="dur">${v.dur}</div>` : ''}
+      <div class="title">${v.title}</div>
+    </div>
+    <div class="vbody">
+      <p>${v.desc}</p>
+      ${count>0 ? `<p style="font-size:12px; color:var(--teal-deep); margin:-4px 0 10px;">📅 ${count}回視聴・直近: ${recent}${count>5?' 他':''}</p>` : ''}
+      <div class="vfoot">
+        <button class="check-btn ${count>0?'done':''}" onclick="logWatch('${v.id}')">${count>0?`✓ 今日も見た(${count}回目)`:'見た記録をつける'}</button>
+        <button class="try-btn">LET'S TRY!</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderHomeNew(){
+  const v = VIDEOS[0];
+  document.getElementById('homeNewVideo').innerHTML = videoCardHTML(v, watchLog[v.id]);
+}
+
+const RADIO = {
+  title: 'マイフィットラジオ',
+  sub: 'No.1〜No.100(まとめページ)',
+  url: 'https://note.com/preview/ne9e0d16c2374?prev_access_key=c1c7eceb25e4a747acd18368fd1076e9',
+  desc: '家事をしながら、育児をしながら。仕事や移動時間の合間に。みんなの1日の活力になるような内容を、サクッと5〜10分でお届けします。'
+};
+
+function radioCardHTML(){
+  return `
+  <div class="vcard">
+    <div class="vthumb" style="background:${GRADIENTS['ラジオ']}; justify-content:flex-start; align-items:flex-end; padding:14px;">
+      <div class="title" style="position:static; text-shadow:none;">🎙️ ${RADIO.title}</div>
+    </div>
+    <div class="vbody">
+      <p style="font-weight:700; color:var(--ink); margin-bottom:6px;">${RADIO.sub}</p>
+      <p>${RADIO.desc}</p>
+      <div class="vfoot" style="justify-content:flex-end;">
+        <a href="${RADIO.url}" target="_blank" rel="noopener" class="try-btn" style="text-decoration:none;">noteで聴く</a>
+      </div>
+    </div>
+  </div>
+  <p class="sub" style="text-align:center; margin-top:-4px;">※ No.101以降は今後こちらのタブに1本ずつ追加していきます</p>`;
+}
+
+function renderVideos(){
+  const cats = ['全身','上半身','下半身','お悩み別','ラジオ'];
+  document.getElementById('tabRow').innerHTML = cats.map(c=>
+    `<button class="tab ${c===currentCat?'active':''}" onclick="currentCat='${c}'; renderVideos()">${c}</button>`
+  ).join('');
+  const listEl = document.getElementById('videoList');
+  if(currentCat==='ラジオ'){
+    listEl.innerHTML = radioCardHTML();
+    return;
+  }
+  const list = VIDEOS.filter(v=>v.cat===currentCat);
+  if(list.length===0){
+    listEl.innerHTML = `<div class="empty"><div class="big">🍃</div>このカテゴリの動画は準備中です</div>`;
+    return;
+  }
+  listEl.innerHTML = list.map(v=>videoCardHTML(v, watchLog[v.id])).join('');
+}
+
+// In-memory watch log store: { videoId: [Date, Date, ...] }
+// (kept in JS memory for this session; per app restrictions we avoid browser storage APIs)
+let watchLog = {};
+
+function getMemberName(){
+  try{
+    const saved = JSON.parse(localStorage.getItem('myfit_member') || 'null');
+    return saved && saved.name ? saved.name : '匿名';
+  }catch(e){ return '匿名'; }
+}
+
+function logWatch(id){
+  if(!watchLog[id]) watchLog[id] = [];
+  watchLog[id].push(new Date());
+  renderVideos();
+  renderHomeNew();
+  const video = VIDEOS.find(v=>v.id===id);
+  fetch('/api/log', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ name: getMemberName(), videoId: id, title: video ? video.title : id })
+  }).catch(()=>{ /* オフライン等でも画面上の記録は残るので無視してOK */ });
+}
+
+function renderCalendar(){
+  const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  document.getElementById('calMonthLabel').textContent = `${calYear}年 ${monthNames[calMonth]}`;
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  let html = '';
+  ['S','M','T','W','T','F','S'].forEach(d=> html += `<div class="dow">${d}</div>`);
+  for(let i=0;i<firstDay;i++) html += `<div class="day blank"></div>`;
+  for(let d=1; d<=daysInMonth; d++){
+    let cls = 'day';
+    if(calMonth===7 && LESSON_DAYS.includes(d)) cls += ' lesson';
+    if(calMonth===7 && LIMIT_DAYS.includes(d)) cls += ' limit';
+    html += `<div class="${cls}">${d}</div>`;
+  }
+  document.getElementById('calGrid').innerHTML = html;
+}
+
+function changeMonth(delta){
+  calMonth += delta;
+  if(calMonth>11){calMonth=0; calYear++;}
+  if(calMonth<0){calMonth=11; calYear--;}
+  renderCalendar();
+}
+
+function renderMypage(){
+  const watchedIds = Object.keys(watchLog).filter(k=>watchLog[k] && watchLog[k].length>0);
+  const watchedVideos = VIDEOS.filter(v=>watchedIds.includes(v.id));
+  const totalSessions = watchedIds.reduce((sum,id)=>sum + watchLog[id].length, 0);
+  document.getElementById('mypageStats').innerHTML = `
+    <div class="cal-card" style="display:flex; justify-content:space-around; text-align:center;">
+      <div><div style="font-family:'Zen Maru Gothic'; font-size:26px; font-weight:900; color:var(--teal-deep);">${totalSessions}</div><div class="sub" style="margin:0;">総視聴回数</div></div>
+      <div><div style="font-family:'Zen Maru Gothic'; font-size:26px; font-weight:900; color:var(--clay);">${watchedVideos.length}</div><div class="sub" style="margin:0;">見た本数(種類)</div></div>
+    </div>`;
+  const listEl = document.getElementById('watchedList');
+  if(watchedVideos.length===0){
+    listEl.innerHTML = `<div class="empty"><div class="big">🌱</div>まだ視聴記録がありません<br>動画一覧からケアを始めてみよう</div>`;
+    return;
+  }
+  // 視聴回数が多い順に並べる
+  const sorted = [...watchedVideos].sort((a,b)=> watchLog[b.id].length - watchLog[a.id].length);
+  listEl.innerHTML = sorted.map(v=>videoCardHTML(v, watchLog[v.id])).join('');
+}
+
+renderHomeNew();
+
+// ---------- Q&A 質問ボックス ----------
+// まいまいさんから「質問文・回答文」を送ってもらったら、この配列に1件ずつ追加していく
+const QA_LIST = [
+  // 例: {q:'産後の骨盤矯正はいつから始めるべきですか？', a:'一般的には産後1ヶ月健診で問題がなければOKと言われることが多いよ。まずは呼吸と骨盤底筋のケアから始めるのがおすすめ◎'},
+];
+
+function qaCardHTML(item, idx){
+  return `
+  <div class="vcard">
+    <div class="vbody" style="padding-top:16px;">
+      <p style="font-weight:700; color:var(--teal-deep); margin-bottom:8px;">Q${idx+1}. ${item.q}</p>
+      <p style="color:var(--ink); line-height:1.8;">${item.a}</p>
+    </div>
+  </div>`;
+}
+
+function renderQA(){
+  const listEl = document.getElementById('qaList');
+  if(QA_LIST.length===0){
+    listEl.innerHTML = `<div class="empty"><div class="big">💌</div>まだ公開できる質問がありません<br>質問箱に届いたらここに追加していきます</div>`;
+    return;
+  }
+  listEl.innerHTML = QA_LIST.map((item,idx)=>qaCardHTML(item,idx)).join('');
+}
+</script>
+</body>
+</html>
