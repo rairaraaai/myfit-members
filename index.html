@@ -300,7 +300,7 @@
       <button class="cat-btn alt" onclick="go('qa')">質問ボックス</button>
     </div>
 
-    <div class="section-label"><span>NEW 新着動画</span></div>
+    <div class="section-label"><span>今月のイチオシ！</span></div>
     <div id="homeNewVideo"></div>
   </section>
 
@@ -377,36 +377,26 @@ const GRADIENTS = {
 };
 
 const VIDEOS = [
-  {id:'v1', cat:'上半身', title:'猫背・背中すっきりケア', dur:'7分', tags:['呼吸','肩回し','肩甲骨'],
-   desc:'普段自分で見れない「背中」。背中がガチガチだと猫背にも反り腰にも影響があるよ！ほぐしケアの上半身とセットで行うのもおすすめ☆'},
-  {id:'v2', cat:'全身', title:'筋膜ほぐし・ねじれケア', dur:'4分', tags:['つまむ','ゆらす','ねじれ取り'],
+  {id:'v2', cat:'全身', title:'筋膜ほぐし・ねじれケア', dur:'4分', tags:['つまむ','ゆらす','ねじれ取り'], url:'https://vimeo.com/1187972033/12527530bc',
    desc:'ガチガチな身体だと本当に動かしたいところが動けず代わりに自分の癖で動いてしまいやすい‥！まずは緩めて◎ガチガチ→フワフワの土台を作っていこう！'},
-  {id:'v3', cat:'全身', title:'有酸素運動−格闘技−', dur:'5分', tags:['脂肪燃焼','引き締め','体力向上'],
+  {id:'v3', cat:'全身', title:'有酸素運動−格闘技−', dur:'5分', tags:['脂肪燃焼','引き締め','体力向上'], url:'https://vimeo.com/1183695676/6c0768c2f7',
    desc:'有酸素運動の効果は・脂肪燃焼・引き締め・体力向上。格闘技の動きでひと汗かこう♪'},
-  {id:'v4', cat:'下半身', title:'股関節集中トレーニング', dur:'5分', tags:['太もも前','お尻上側','腰まわり'],
+  {id:'v4', cat:'下半身', title:'股関節集中トレーニング', dur:'5分', tags:['太もも前','お尻上側','腰まわり'], url:'https://vimeo.com/1156357441/6a2bd9024e',
    desc:'太もも前や外側がパンパンになる人必見！股関節を正しく使い、お尻を目覚めさせよう◎'},
-  {id:'v5', cat:'全身', title:'基本の呼吸トレーニング', dur:'8分', tags:['お腹の呼吸','胸の呼吸'],
+  {id:'v5', cat:'全身', title:'基本の呼吸トレーニング', dur:'8分', tags:['お腹の呼吸','胸の呼吸'], url:'https://vimeo.com/1146477962/0285a56b75',
    desc:'全ての土台！まずはここから◎呼吸が変わると身体が変わる！'},
-  {id:'v6', cat:'全身', title:'お腹強化バランス', dur:'6分', tags:['ミニボール使用'],
-   desc:'体幹集中！全身をコントロールしながら強くしなやかなお腹づくり！ミニボール使用☆'},
-  {id:'v7', cat:'全身', title:'お腹と背骨両方使おう(転がるピラティス)', dur:'5分', tags:['体幹','背骨'],
+  {id:'v7', cat:'全身', title:'お腹と背骨両方使おう(転がるピラティス)', dur:'5分', tags:['体幹','背骨'], url:'https://vimeo.com/1080391247/c698800236',
    desc:'お腹だけが強くても背骨だけが柔らかくても‥できない！お腹と背骨を同時に使えるトレーニング★'},
-  {id:'v8', cat:'全身', title:'寝ながらできる整え運動', dur:'25分', tags:['じっくり'],
-   desc:'寝ながら◎(少し起き上がるけど) じっくり30分、身体を整えたいときに！'},
-  {id:'v9', cat:'全身', title:'全身じっくりストレッチ', dur:'10分', tags:['ストレッチ'],
-   desc:'前半-下半身 後半-上半身。まんべんなく伸ばせるストレッチ。お疲れ気味の時におすすめ。'},
-  {id:'v10', cat:'上半身', title:'テニスボールほぐし', dur:'', tags:['ほぐし'],
-   desc:'テニスボールを使って身体をほぐすよ！痛いところは硬いところ！じっくりほぐしてみてね◎'},
-  {id:'v11', cat:'上半身', title:'筋膜ほぐし上半身トレ', dur:'12分', tags:['ほぐし','呼吸','背中・肩'],
+  {id:'v11', cat:'上半身', title:'筋膜ほぐし上半身トレ', dur:'12分', tags:['ほぐし','呼吸','背中・肩'], url:'https://vimeo.com/1089612148/efd8e73d72',
    desc:'まいまいおすすめの「横隔膜呼吸」をマスターすると見た目も機能も変わる◎ガチガチ上半身を動かしてしなやかBODYへ！'},
-  {id:'v12', cat:'下半身', title:'美脚・ヒップアップ', dur:'15分', tags:['足ねじり','お尻','もも前','お腹'],
+  {id:'v12', cat:'下半身', title:'美脚・ヒップアップ', dur:'15分', tags:['足ねじり','お尻','もも前','お腹'], url:'https://vimeo.com/1089614610/73df2b8026',
    desc:'脚のねじれ取り お尻の活性化！続けると美脚が叶う☆'},
-  {id:'v13', cat:'下半身', title:'骨盤・お尻正しく使う', dur:'5分', tags:['骨盤','お尻'],
-   desc:'骨盤周り〜お尻。前半の動きは寝かしつけや寝る前に◎布団の中でも出来て、腰回りの張りが取れるよ〜！'},
-  {id:'v14', cat:'お悩み別', title:'お悩み別-腰痛-(3種目)', dur:'10分', tags:['腰痛'],
-   desc:'腰痛持ちさんにぜひやってほしい！腰が痛い=腰が悪いではなく、動いて欲しい場所を丁寧に動かすよ！'},
-  {id:'v15', cat:'お悩み別', title:'小顔トレーニング', dur:'7分', tags:['頭皮ほぐし','目元','小顔'],
+  {id:'v15', cat:'お悩み別', title:'小顔トレーニング', dur:'7分', tags:['頭皮ほぐし','目元','小顔'], url:'https://vimeo.com/1141282383/f83b64c1e9',
    desc:'頭皮も繋がっている！ほぐしてから動かしてみてね！スッキリするよ☆'},
+  {id:'v16', cat:'全身', title:'リトラクスポジション', dur:'1分', tags:['呼吸','背骨','くびれ'], url:'https://vimeo.com/1194260292/9493542866',
+   desc:'骨盤と胸が長ーく保てるポジション作りの解説と呼吸。この姿勢や使い方ができると、アンダーバストは締まり、くびれが出現⭐︎'},
+  {id:'v17', cat:'お悩み別', title:'お腹集中ピラティス', dur:'7分', tags:['お腹','下腹','くびれ'], url:'https://vimeo.com/1196655717/fe82a0d1ae',
+   desc:'お腹を集中的に！呼吸を止めずに行ってみよう！'},
 ];
 
 let currentCat = '全身';
@@ -449,14 +439,17 @@ function videoCardHTML(v, log){
       ${count>0 ? `<p style="font-size:12px; color:var(--teal-deep); margin:-4px 0 10px;">📅 ${count}回視聴・直近: ${recent}${count>5?' 他':''}</p>` : ''}
       <div class="vfoot">
         <button class="check-btn ${count>0?'done':''}" onclick="logWatch('${v.id}')">${count>0?`✓ 今日も見た(${count}回目)`:'見た記録をつける'}</button>
-        <button class="try-btn">LET'S TRY!</button>
+        ${v.url
+          ? `<a href="${v.url}" target="_blank" rel="noopener" class="try-btn" style="text-decoration:none;">LET'S TRY!</a>`
+          : `<button class="try-btn" style="opacity:.5;" disabled>準備中</button>`
+        }
       </div>
     </div>
   </div>`;
 }
 
 function renderHomeNew(){
-  const v = VIDEOS[0];
+  const v = VIDEOS.find(v => v.id === 'v16') || VIDEOS[0];
   document.getElementById('homeNewVideo').innerHTML = videoCardHTML(v, watchLog[v.id]);
 }
 
