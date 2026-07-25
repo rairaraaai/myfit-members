@@ -172,8 +172,9 @@
   .cal-grid .day{ position:relative; padding:8px 0; font-size:13px; border-radius:10px; color:var(--ink); }
   .cal-grid .day.blank{ visibility:hidden; }
   .cal-grid .day.lesson{ background:var(--teal-pale); font-weight:700; color:var(--teal-deep); }
-  .cal-grid .day.limit{ background:none; font-weight:900; color:var(--clay); text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:2px; }
+  .cal-grid .day.limit{ background:var(--clay-pale); font-weight:900; color:var(--clay); }
   .cal-grid .day.meetup{ background:#EFE6F7; font-weight:700; color:#7B5EA7; }
+  .cal-grid .day.lesson.limit{ background:var(--teal-pale); color:var(--teal-deep); font-weight:900; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:2px; }
   .cal-legend{ display:flex; gap:14px; margin-top:12px; font-size:11.5px; color:var(--ink-soft); }
   .cal-legend span{ display:flex; align-items:center; gap:5px; }
   .dotlg{ width:9px;height:9px;border-radius:50%; }
@@ -288,6 +289,10 @@
   <section class="screen active" id="screen-home">
     <div class="notice">
       <div class="dot">!</div>
+      <p><b>8月のzoomレッスン</b>は 8/8(土) 9:00〜10:00 です。アーカイブ視聴期限は <b>9/8</b> まで(配信から1ヶ月)。</p>
+    </div>
+    <div class="notice">
+      <div class="dot">!</div>
       <p><b>8月のライブレッスン</b>は 8/7(金)8:30〜、8/21(金)8:40〜、8/27(木)8:30〜 の3回!アーカイブはそれぞれ<b>配信から2週間</b>視聴できます。</p>
     </div>
 
@@ -335,7 +340,11 @@
     <div class="section-label"><span>今後の予定</span></div>
     <div class="lesson-item">
       <div class="date-chip"><div class="d">7</div><div class="m">AUG</div></div>
-      <div class="info"><b>ライブレッスン</b><span>金曜 8:30〜・10〜20分のインスタライブ</span></div>
+      <div class="info"><b>ライブレッスン・有酸素運動</b><span>金曜 8:30〜・10〜20分のインスタライブ</span></div>
+    </div>
+    <div class="lesson-item">
+      <div class="date-chip"><div class="d">8</div><div class="m">AUG</div></div>
+      <div class="info"><b>zoomレッスン</b><span>土曜 9:00〜10:00・前半/後半だけの参加もOK</span></div>
     </div>
     <div class="lesson-item">
       <div class="date-chip" style="background:#EFE6F7; color:#7B5EA7;"><div class="d">12</div><div class="m">AUG</div></div>
@@ -343,15 +352,19 @@
     </div>
     <div class="lesson-item">
       <div class="date-chip"><div class="d">21</div><div class="m">AUG</div></div>
-      <div class="info"><b>ライブレッスン</b><span>金曜 8:40〜・8/7回のアーカイブ視聴期限も同日です</span></div>
+      <div class="info"><b>ライブレッスン・腰痛予防(股関節と背骨)</b><span>金曜 8:40〜・8/7回のアーカイブ視聴期限も同日です</span></div>
     </div>
     <div class="lesson-item">
       <div class="date-chip"><div class="d">27</div><div class="m">AUG</div></div>
-      <div class="info"><b>ライブレッスン</b><span>木曜 8:30〜</span></div>
+      <div class="info"><b>ライブレッスン・立ったままできるトレーニング</b><span>木曜 8:30〜</span></div>
     </div>
     <div class="lesson-item">
       <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">4</div><div class="m">SEP</div></div>
       <div class="info"><b>アーカイブ視聴期限</b><span>8/21回の視聴期限です</span></div>
+    </div>
+    <div class="lesson-item">
+      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">8</div><div class="m">SEP</div></div>
+      <div class="info"><b>アーカイブ視聴期限</b><span>8/8 zoomレッスンの視聴期限です(配信から1ヶ月)</span></div>
     </div>
     <div class="lesson-item">
       <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">10</div><div class="m">SEP</div></div>
@@ -422,11 +435,13 @@ let calYear = 2026, calMonth = 7; // 0-indexed month => August=7
 // 年月日ごとのイベント一覧(複数日程・複数月をまたぐ予定に対応)
 const CAL_EVENTS = [
   {y:2026, m:7, d:7,  type:'lesson'}, // 8/7 ライブレッスン
+  {y:2026, m:7, d:8,  type:'lesson'}, // 8/8 zoomレッスン
   {y:2026, m:7, d:12, type:'meetup'}, // 8/12 オフ会
   {y:2026, m:7, d:21, type:'lesson'}, // 8/21 ライブレッスン
   {y:2026, m:7, d:21, type:'limit'},  // 8/7回のアーカイブ期限(同日)
   {y:2026, m:7, d:27, type:'lesson'}, // 8/27 ライブレッスン
   {y:2026, m:8, d:4,  type:'limit'},  // 8/21回のアーカイブ期限
+  {y:2026, m:8, d:8,  type:'limit'},  // 8/8 zoomレッスンのアーカイブ期限(1ヶ月後)
   {y:2026, m:8, d:10, type:'limit'},  // 8/27回のアーカイブ期限
 ];
 
