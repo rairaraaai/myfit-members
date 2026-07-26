@@ -344,7 +344,13 @@
     </div>
     <div class="lesson-item">
       <div class="date-chip"><div class="d">8</div><div class="m">AUG</div></div>
-      <div class="info"><b>zoomレッスン</b><span>土曜 9:00〜10:00・前半/後半だけの参加もOK</span></div>
+      <div class="info">
+        <b>zoomレッスン</b><span>土曜 9:00〜10:00・途中入退場自由！</span>
+        <div style="margin-top:8px;">
+          <a href="https://us06web.zoom.us/j/81349435422?pwd=1IlAuVXIdSGkxyHIK8d56tbWdbZB4u.1" target="_blank" rel="noopener" class="try-btn" style="text-decoration:none; display:inline-block;">Zoomに参加する</a>
+          <div style="font-size:11px; color:var(--ink-soft); margin-top:6px;">ID:813 4943 5422 / パスコード:1478</div>
+        </div>
+      </div>
     </div>
     <div class="lesson-item">
       <div class="date-chip" style="background:#EFE6F7; color:#7B5EA7;"><div class="d">12</div><div class="m">AUG</div></div>
@@ -428,6 +434,8 @@ const VIDEOS = [
    desc:'骨盤と胸が長ーく保てるポジション作りの解説と呼吸。この姿勢や使い方ができると、アンダーバストは締まり、くびれが出現⭐︎'},
   {id:'v17', cat:'お悩み別', title:'お腹集中ピラティス', dur:'7分', tags:['お腹','下腹','くびれ'], url:'https://vimeo.com/1196655717/fe82a0d1ae',
    desc:'お腹を集中的に！呼吸を止めずに行ってみよう！'},
+  {id:'v18', cat:'全身', title:'7月zoomレッスン', dur:'', tags:['zoomアーカイブ'], url:'https://vimeo.com/1208972891/84b0df6183',
+   desc:'7月に開催したzoomレッスンのアーカイブです。アーカイブ視聴期限は8/11まで。'},
 ];
 
 let currentCat = '全身';
@@ -490,7 +498,7 @@ function videoCardHTML(v, log){
 }
 
 function renderHomeNew(){
-  const v = VIDEOS.find(v => v.id === 'v16') || VIDEOS[0];
+  const v = VIDEOS.find(v => v.id === 'v18') || VIDEOS[0];
   document.getElementById('homeNewVideo').innerHTML = videoCardHTML(v, watchLog[v.id]);
 }
 
