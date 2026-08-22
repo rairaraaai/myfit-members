@@ -251,6 +251,7 @@
     const result = await verifyCode(saved.code);
     if(result.ok){
       document.getElementById('nameGate').style.display='none';
+      if(window.syncWatchLogFromServer) window.syncWatchLogFromServer(saved.code);
     } else if(result.offline){
       // オフライン時は前回の認証を尊重して通す(通信できないだけで会員体験を止めないため)
       document.getElementById('nameGate').style.display='none';
@@ -270,6 +271,7 @@
     if(result.ok){
       localStorage.setItem('myfit_member', JSON.stringify({code: val, name: result.name}));
       document.getElementById('nameGate').style.display='none';
+      if(window.syncWatchLogFromServer) window.syncWatchLogFromServer(val);
     } else {
       msgEl.style.color = '#c0392b';
       msgEl.textContent = 'コードが無効です。まいまいさんに確認してください。';
@@ -289,11 +291,11 @@
   <section class="screen active" id="screen-home">
     <div class="notice">
       <div class="dot">!</div>
-      <p><b>8月のzoomレッスン</b>は 8/8(土) 9:00〜10:00 です。アーカイブ視聴期限は <b>9/8</b> まで(配信から1ヶ月)。</p>
+      <p><b>9月のzoomレッスン</b>は 9/12(土) 9:00〜10:00 です。アーカイブ視聴期限は <b>10/12</b> まで(配信から1ヶ月)。</p>
     </div>
     <div class="notice">
       <div class="dot">!</div>
-      <p><b>8月のライブレッスン</b>は 8/7(金)8:30〜、8/21(金)8:40〜、8/27(木)8:30〜 の3回!アーカイブはそれぞれ<b>配信から2週間</b>視聴できます。</p>
+      <p><b>9月のライブレッスン</b>は 9/1(火)8:30〜、9/10(木)8:30〜、9/18(金)8:30〜、9/24(木)8:30〜 の4回!アーカイブはそれぞれ<b>配信から2週間</b>視聴できます。</p>
     </div>
 
     <div class="section-label"><span>カテゴリ</span></div>
@@ -306,7 +308,7 @@
       <button class="cat-btn alt" onclick="go('qa')">質問ボックス</button>
     </div>
 
-    <div class="section-label"><span>今月のイチオシ！</span></div>
+    <div class="section-label"><span>zoomレッスン</span></div>
     <div id="homeNewVideo"></div>
   </section>
 
@@ -326,7 +328,7 @@
     <div class="cal-card">
       <div class="cal-head">
         <button onclick="changeMonth(-1)">‹</button>
-        <div class="cal-month" id="calMonthLabel">2026年 8月</div>
+        <div class="cal-month" id="calMonthLabel">2026年 9月</div>
         <button onclick="changeMonth(1)">›</button>
       </div>
       <div class="cal-grid" id="calGrid"></div>
@@ -339,42 +341,46 @@
 
     <div class="section-label"><span>今後の予定</span></div>
     <div class="lesson-item">
-      <div class="date-chip"><div class="d">7</div><div class="m">AUG</div></div>
-      <div class="info"><b>ライブレッスン・有酸素運動</b><span>金曜 8:30〜・10〜20分のインスタライブ</span></div>
+      <div class="date-chip"><div class="d">1</div><div class="m">SEP</div></div>
+      <div class="info"><b>ライブレッスン・有酸素運動</b><span>火曜 8:30〜・10〜20分のインスタライブ</span></div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip"><div class="d">8</div><div class="m">AUG</div></div>
+      <div class="date-chip"><div class="d">10</div><div class="m">SEP</div></div>
+      <div class="info"><b>ライブレッスン・腰痛予防(股関節と背骨)</b><span>木曜 8:30〜</span></div>
+    </div>
+    <div class="lesson-item">
+      <div class="date-chip"><div class="d">12</div><div class="m">SEP</div></div>
       <div class="info">
         <b>zoomレッスン</b><span>土曜 9:00〜10:00・途中入退場自由！</span>
         <div style="margin-top:8px;">
-          <a href="https://us06web.zoom.us/j/81349435422?pwd=1IlAuVXIdSGkxyHIK8d56tbWdbZB4u.1" target="_blank" rel="noopener" class="try-btn" style="text-decoration:none; display:inline-block;">Zoomに参加する</a>
-          <div style="font-size:11px; color:var(--ink-soft); margin-top:6px;">ID:813 4943 5422 / パスコード:1478</div>
+          <a href="https://us06web.zoom.us/j/83032638541?pwd=IekavlAwsRWP45iCTZ5f0J0DFrCQEJ.1" target="_blank" rel="noopener" class="try-btn" style="text-decoration:none; display:inline-block;">Zoomに参加する</a>
+          <div style="font-size:11px; color:var(--ink-soft); margin-top:6px;">ID:830 3263 8541 / パスコード:0912</div>
         </div>
       </div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip" style="background:#EFE6F7; color:#7B5EA7;"><div class="d">12</div><div class="m">AUG</div></div>
-      <div class="info"><b>オフ会</b><span>水曜 12:30〜・レッスン〜カフェタイム(時間と場所は後日案内)</span></div>
+      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">15</div><div class="m">SEP</div></div>
+      <div class="info"><b>アーカイブ視聴期限</b><span>9/1回の視聴期限です</span></div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip"><div class="d">21</div><div class="m">AUG</div></div>
-      <div class="info"><b>ライブレッスン・腰痛予防(股関節と背骨)</b><span>金曜 8:40〜・8/7回のアーカイブ視聴期限も同日です</span></div>
+      <div class="date-chip"><div class="d">18</div><div class="m">SEP</div></div>
+      <div class="info"><b>ライブレッスン・ヒップアップトレーニング</b><span>金曜 8:30〜</span></div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip"><div class="d">27</div><div class="m">AUG</div></div>
-      <div class="info"><b>ライブレッスン・立ったままできるトレーニング</b><span>木曜 8:30〜</span></div>
+      <div class="date-chip"><div class="d">24</div><div class="m">SEP</div></div>
+      <div class="info"><b>ライブレッスン・肩スッキリトレーニング</b><span>木曜 8:30〜・9/10回のアーカイブ視聴期限も同日です</span></div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">4</div><div class="m">SEP</div></div>
-      <div class="info"><b>アーカイブ視聴期限</b><span>8/21回の視聴期限です</span></div>
+      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">2</div><div class="m">OCT</div></div>
+      <div class="info"><b>アーカイブ視聴期限</b><span>9/18回の視聴期限です</span></div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">8</div><div class="m">SEP</div></div>
-      <div class="info"><b>アーカイブ視聴期限</b><span>8/8 zoomレッスンの視聴期限です(配信から1ヶ月)</span></div>
+      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">8</div><div class="m">OCT</div></div>
+      <div class="info"><b>アーカイブ視聴期限</b><span>9/24回の視聴期限です</span></div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">10</div><div class="m">SEP</div></div>
-      <div class="info"><b>アーカイブ視聴期限</b><span>8/27回の視聴期限です</span></div>
+      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">12</div><div class="m">OCT</div></div>
+      <div class="info"><b>アーカイブ視聴期限</b><span>9/12 zoomレッスンの視聴期限です(配信から1ヶ月)</span></div>
     </div>
   </section>
 
@@ -382,7 +388,9 @@
   <section class="screen" id="screen-mypage">
     <h2 class="fade-title">マイページ</h2>
     <p class="sub">視聴した動画があなたのペースを教えてくれます</p>
+    <div id="mypageMessage" class="notice" style="margin-bottom:16px;"></div>
     <div id="mypageStats"></div>
+    <div id="monthlyStats"></div>
     <div class="section-label"><span>視聴した動画(回数が多い順)</span></div>
     <div id="watchedList"></div>
   </section>
@@ -434,25 +442,31 @@ const VIDEOS = [
    desc:'骨盤と胸が長ーく保てるポジション作りの解説と呼吸。この姿勢や使い方ができると、アンダーバストは締まり、くびれが出現⭐︎'},
   {id:'v17', cat:'お悩み別', title:'お腹集中ピラティス', dur:'7分', tags:['お腹','下腹','くびれ'], url:'https://vimeo.com/1196655717/fe82a0d1ae',
    desc:'お腹を集中的に！呼吸を止めずに行ってみよう！'},
-  {id:'v18', cat:'全身', title:'8月zoomレッスン', dur:'', tags:['zoomアーカイブ'], url:'https://vimeo.com/1216568704/fcde482e6a',
-   desc:'8月に開催したzoomレッスンのアーカイブです。アーカイブ視聴期限は9/8まで。'},
   {id:'v19', cat:'全身', title:'全身ストレッチ', dur:'8分', tags:['ストレッチ'], url:'https://vimeo.com/1216389391/2eb0d12791',
    desc:'全身をまんべんなく伸ばして、凝り固まった身体をゆるめよう。'},
 ];
 
+// トップページのzoomレッスン枠(動画一覧には表示しない)
+const ZOOM_ARCHIVE = {
+  id:'zoom', cat:'全身', title:'8月zoomレッスン', dur:'', tags:['zoomアーカイブ'],
+  url:'https://vimeo.com/1216568704/fcde482e6a',
+  desc:'8月に開催したzoomレッスンのアーカイブです。アーカイブ視聴期限は9/8まで。'
+};
+
 let currentCat = '全身';
-let calYear = 2026, calMonth = 7; // 0-indexed month => August=7
+let calYear = 2026, calMonth = 8; // 0-indexed month => September=8
 // 年月日ごとのイベント一覧(複数日程・複数月をまたぐ予定に対応)
 const CAL_EVENTS = [
-  {y:2026, m:7, d:7,  type:'lesson'}, // 8/7 ライブレッスン
-  {y:2026, m:7, d:8,  type:'lesson'}, // 8/8 zoomレッスン
-  {y:2026, m:7, d:12, type:'meetup'}, // 8/12 オフ会
-  {y:2026, m:7, d:21, type:'lesson'}, // 8/21 ライブレッスン
-  {y:2026, m:7, d:21, type:'limit'},  // 8/7回のアーカイブ期限(同日)
-  {y:2026, m:7, d:27, type:'lesson'}, // 8/27 ライブレッスン
-  {y:2026, m:8, d:4,  type:'limit'},  // 8/21回のアーカイブ期限
-  {y:2026, m:8, d:8,  type:'limit'},  // 8/8 zoomレッスンのアーカイブ期限(1ヶ月後)
-  {y:2026, m:8, d:10, type:'limit'},  // 8/27回のアーカイブ期限
+  {y:2026, m:8, d:1,  type:'lesson'}, // 9/1 ライブレッスン
+  {y:2026, m:8, d:10, type:'lesson'}, // 9/10 ライブレッスン
+  {y:2026, m:8, d:12, type:'lesson'}, // 9/12 zoomレッスン
+  {y:2026, m:8, d:15, type:'limit'},  // 9/1回のアーカイブ期限
+  {y:2026, m:8, d:18, type:'lesson'}, // 9/18 ライブレッスン
+  {y:2026, m:8, d:24, type:'lesson'}, // 9/24 ライブレッスン
+  {y:2026, m:8, d:24, type:'limit'},  // 9/10回のアーカイブ期限(同日)
+  {y:2026, m:9, d:2,  type:'limit'},  // 9/18回のアーカイブ期限
+  {y:2026, m:9, d:8,  type:'limit'},  // 9/24回のアーカイブ期限
+  {y:2026, m:9, d:12, type:'limit'},  // 9/12 zoomレッスンのアーカイブ期限(1ヶ月後)
 ];
 
 function go(tab){
@@ -500,8 +514,7 @@ function videoCardHTML(v, log){
 }
 
 function renderHomeNew(){
-  const v = VIDEOS.find(v => v.id === 'v18') || VIDEOS[0];
-  document.getElementById('homeNewVideo').innerHTML = videoCardHTML(v, watchLog[v.id]);
+  document.getElementById('homeNewVideo').innerHTML = videoCardHTML(ZOOM_ARCHIVE, watchLog[ZOOM_ARCHIVE.id]);
 }
 
 const RADIO = {
@@ -546,9 +559,18 @@ function renderVideos(){
   listEl.innerHTML = list.map(v=>videoCardHTML(v, watchLog[v.id])).join('');
 }
 
-// In-memory watch log store: { videoId: [Date, Date, ...] }
-// (kept in JS memory for this session; per app restrictions we avoid browser storage APIs)
-let watchLog = {};
+// 視聴記録の保存先: { videoId: [ISO日付, ISO日付, ...] }
+// この端末のブラウザに保存され、閉じても消えない(会員コードと同様、端末単位の記録)
+function loadWatchLog(){
+  try{
+    const raw = localStorage.getItem('myfit_watch_log');
+    return raw ? JSON.parse(raw) : {};
+  }catch(e){ return {}; }
+}
+function saveWatchLog(){
+  try{ localStorage.setItem('myfit_watch_log', JSON.stringify(watchLog)); }catch(e){}
+}
+let watchLog = loadWatchLog();
 
 function getMemberName(){
   try{
@@ -557,18 +579,51 @@ function getMemberName(){
   }catch(e){ return '匿名'; }
 }
 
+function getMemberCode(){
+  try{
+    const saved = JSON.parse(localStorage.getItem('myfit_member') || 'null');
+    return saved && saved.code ? saved.code : null;
+  }catch(e){ return null; }
+}
+
 function logWatch(id){
   if(!watchLog[id]) watchLog[id] = [];
-  watchLog[id].push(new Date());
+  watchLog[id].push(new Date().toISOString());
+  saveWatchLog();
   renderVideos();
   renderHomeNew();
-  const video = VIDEOS.find(v=>v.id===id);
+  const video = [...VIDEOS, ZOOM_ARCHIVE].find(v=>v.id===id);
   fetch('/api/log', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ name: getMemberName(), videoId: id, title: video ? video.title : id })
+    body: JSON.stringify({ name: getMemberName(), code: getMemberCode(), videoId: id, title: video ? video.title : id })
   }).catch(()=>{ /* オフライン等でも画面上の記録は残るので無視してOK */ });
 }
+
+// 会員コードを使って、サーバー側に保存された視聴履歴をこの端末に復元する
+// (Safariの履歴削除やアプリの再インストールで端末側の記録が消えても、コード再入力で復元できる)
+async function syncWatchLogFromServer(code){
+  try{
+    const res = await fetch('/api/my-logs', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({code})
+    });
+    if(!res.ok) return;
+    const records = await res.json();
+    records.forEach(r=>{
+      if(!watchLog[r.videoId]) watchLog[r.videoId] = [];
+      if(!watchLog[r.videoId].includes(r.timestamp)){
+        watchLog[r.videoId].push(r.timestamp);
+      }
+    });
+    saveWatchLog();
+    if(document.getElementById('screen-mypage')?.classList.contains('active')) renderMypage();
+    if(document.getElementById('screen-videos')?.classList.contains('active')) renderVideos();
+    renderHomeNew();
+  }catch(e){ /* オフライン時は端末側の記録のまま表示を続ける */ }
+}
+window.syncWatchLogFromServer = syncWatchLogFromServer;
 
 function renderCalendar(){
   const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
@@ -594,15 +649,68 @@ function changeMonth(delta){
   renderCalendar();
 }
 
+// マイページ上部に表示するランダムな一言(開くたびに変わる)
+const MYPAGE_MESSAGES = [
+  '今日は呼吸から！整えよう〜！',
+  '小さな一歩の積み重ねが、身体を変えていくよ。',
+  'たまには力抜いてみよう！',
+  '気になることはいつでも質問してね！',
+  '続けてるだけで、もう十分すごいこと。',
+  '深く呼吸して、自分に矢印向けてみよう',
+  '疲れてる時こそ、5分！動いたもん勝ち',
+  '迷ったらGO！全身ストレッチ！',
+  '完璧を求めなくてOK',
+  '動いて、食べて、寝る！',
+];
+
 function renderMypage(){
+  const msg = MYPAGE_MESSAGES[Math.floor(Math.random() * MYPAGE_MESSAGES.length)];
+  document.getElementById('mypageMessage').innerHTML = `<div class="dot">🌼</div><p>${msg}</p>`;
   const watchedIds = Object.keys(watchLog).filter(k=>watchLog[k] && watchLog[k].length>0);
-  const watchedVideos = VIDEOS.filter(v=>watchedIds.includes(v.id));
+  const watchedVideos = [...VIDEOS, ZOOM_ARCHIVE].filter(v=>watchedIds.includes(v.id));
   const totalSessions = watchedIds.reduce((sum,id)=>sum + watchLog[id].length, 0);
   document.getElementById('mypageStats').innerHTML = `
     <div class="cal-card" style="display:flex; justify-content:space-around; text-align:center;">
       <div><div style="font-family:'Zen Maru Gothic'; font-size:26px; font-weight:900; color:var(--teal-deep);">${totalSessions}</div><div class="sub" style="margin:0;">総視聴回数</div></div>
       <div><div style="font-family:'Zen Maru Gothic'; font-size:26px; font-weight:900; color:var(--clay);">${watchedVideos.length}</div><div class="sub" style="margin:0;">見た本数(種類)</div></div>
     </div>`;
+
+  // 月ごとの視聴回数を集計(YYYY-MM単位)
+  const monthCounts = {};
+  Object.values(watchLog).forEach(dates=>{
+    dates.forEach(d=>{
+      const dt = new Date(d);
+      const key = `${dt.getFullYear()}/${dt.getMonth()+1}`;
+      monthCounts[key] = (monthCounts[key]||0) + 1;
+    });
+  });
+  const monthKeys = Object.keys(monthCounts).sort((a,b)=>{
+    const [ay,am] = a.split('/').map(Number);
+    const [by,bm] = b.split('/').map(Number);
+    return (by*12+bm) - (ay*12+am); // 新しい月が先
+  });
+  const monthlyEl = document.getElementById('monthlyStats');
+  if(monthKeys.length===0){
+    monthlyEl.innerHTML = '';
+  }else{
+    const maxCount = Math.max(...monthKeys.map(k=>monthCounts[k]));
+    monthlyEl.innerHTML = `
+      <div class="section-label"><span>月ごとの視聴回数</span></div>
+      <div class="cal-card">
+        ${monthKeys.map(k=>{
+          const count = monthCounts[k];
+          const widthPct = Math.max(8, Math.round((count/maxCount)*100));
+          return `<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <div style="width:52px; font-size:12px; color:var(--ink-soft); flex:none;">${k}</div>
+            <div style="flex:1; background:var(--teal-pale); border-radius:999px; height:14px; position:relative;">
+              <div style="width:${widthPct}%; background:var(--teal-deep); border-radius:999px; height:100%;"></div>
+            </div>
+            <div style="width:28px; text-align:right; font-size:13px; font-weight:700; color:var(--teal-deep); flex:none;">${count}</div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
   const listEl = document.getElementById('watchedList');
   if(watchedVideos.length===0){
     listEl.innerHTML = `<div class="empty"><div class="big">🌱</div>まだ視聴記録がありません<br>動画一覧からケアを始めてみよう</div>`;
