@@ -131,8 +131,9 @@
   .vthumb{
     position:relative; height:150px;
     display:flex; align-items:center; justify-content:center;
-    color:#fff;
+    color:#fff; overflow:hidden;
   }
+  .vthumb img{ width:100%; height:100%; object-fit:cover; display:block; }
   .vthumb .tags{ position:absolute; top:10px; right:10px; display:flex; flex-direction:column; gap:5px; align-items:flex-end;}
   .vthumb .tag{ background:rgba(255,255,255,.92); color:var(--ink); font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; }
   .vthumb .dur{
@@ -295,7 +296,7 @@
     </div>
     <div class="notice">
       <div class="dot">!</div>
-      <p><b>9月のライブレッスン</b>は 9/1(火)8:30〜、9/10(木)8:30〜、9/18(金)8:30〜、9/24(木)8:30〜 の4回!アーカイブはそれぞれ<b>配信から2週間</b>視聴できます。</p>
+      <p><b>9月のライブレッスン</b>は 9/1(火)8:30〜、9/10(木)8:30〜、9/14(月)12:30〜、9/24(木)8:30〜 の4回!アーカイブはそれぞれ<b>配信から2週間</b>視聴できます。</p>
     </div>
 
     <div class="section-label"><span>カテゴリ</span></div>
@@ -359,20 +360,20 @@
       </div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">15</div><div class="m">SEP</div></div>
-      <div class="info"><b>アーカイブ視聴期限</b><span>9/1回の視聴期限です</span></div>
+      <div class="date-chip"><div class="d">14</div><div class="m">SEP</div></div>
+      <div class="info"><b>ライブレッスン・ヒップアップトレーニング</b><span>月曜 12:30〜</span></div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip"><div class="d">18</div><div class="m">SEP</div></div>
-      <div class="info"><b>ライブレッスン・ヒップアップトレーニング</b><span>金曜 8:30〜</span></div>
+      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">15</div><div class="m">SEP</div></div>
+      <div class="info"><b>アーカイブ視聴期限</b><span>9/1回の視聴期限です</span></div>
     </div>
     <div class="lesson-item">
       <div class="date-chip"><div class="d">24</div><div class="m">SEP</div></div>
       <div class="info"><b>ライブレッスン・肩スッキリトレーニング</b><span>木曜 8:30〜・9/10回のアーカイブ視聴期限も同日です</span></div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">2</div><div class="m">OCT</div></div>
-      <div class="info"><b>アーカイブ視聴期限</b><span>9/18回の視聴期限です</span></div>
+      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">28</div><div class="m">SEP</div></div>
+      <div class="info"><b>アーカイブ視聴期限</b><span>9/14回の視聴期限です</span></div>
     </div>
     <div class="lesson-item">
       <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">8</div><div class="m">OCT</div></div>
@@ -422,34 +423,34 @@ const GRADIENTS = {
 };
 
 const VIDEOS = [
-  {id:'v2', cat:'全身', title:'筋膜ほぐし・ねじれケア', dur:'4分', tags:['つまむ','ゆらす','ねじれ取り'], url:'https://vimeo.com/1187972033/12527530bc',
+  {id:'v2', cat:'全身', title:'筋膜ほぐし・ねじれケア', dur:'4分', tags:['つまむ','ゆらす','ねじれ取り'], url:'https://vimeo.com/1187972033/12527530bc', img:'images/kinmaku-nejire.jpg',
    desc:'ガチガチな身体だと本当に動かしたいところが動けず代わりに自分の癖で動いてしまいやすい‥！まずは緩めて◎ガチガチ→フワフワの土台を作っていこう！'},
-  {id:'v3', cat:'全身', title:'有酸素運動−格闘技−', dur:'5分', tags:['脂肪燃焼','引き締め','体力向上'], url:'https://vimeo.com/1183695676/6c0768c2f7',
+  {id:'v3', cat:'全身', title:'有酸素運動−格闘技−', dur:'5分', tags:['脂肪燃焼','引き締め','体力向上'], url:'https://vimeo.com/1183695676/6c0768c2f7', img:'images/yusanso-kakutogi.jpg',
    desc:'有酸素運動の効果は・脂肪燃焼・引き締め・体力向上。格闘技の動きでひと汗かこう♪'},
-  {id:'v4', cat:'下半身', title:'股関節集中トレーニング', dur:'5分', tags:['太もも前','お尻上側','腰まわり'], url:'https://vimeo.com/1156357441/6a2bd9024e',
+  {id:'v4', cat:'下半身', title:'股関節集中トレーニング', dur:'5分', tags:['太もも前','お尻上側','腰まわり'], url:'https://vimeo.com/1156357441/6a2bd9024e', img:'images/kokansetsu.jpg',
    desc:'太もも前や外側がパンパンになる人必見！股関節を正しく使い、お尻を目覚めさせよう◎'},
-  {id:'v5', cat:'全身', title:'基本の呼吸トレーニング', dur:'8分', tags:['お腹の呼吸','胸の呼吸'], url:'https://vimeo.com/1146477962/0285a56b75',
+  {id:'v5', cat:'全身', title:'基本の呼吸トレーニング', dur:'8分', tags:['お腹の呼吸','胸の呼吸'], url:'https://vimeo.com/1146477962/0285a56b75', img:'images/kihon-kokyu.jpg',
    desc:'全ての土台！まずはここから◎呼吸が変わると身体が変わる！'},
-  {id:'v7', cat:'全身', title:'お腹と背骨両方使おう(転がるピラティス)', dur:'5分', tags:['体幹','背骨'], url:'https://vimeo.com/1080391247/c698800236',
+  {id:'v7', cat:'全身', title:'お腹と背骨両方使おう(転がるピラティス)', dur:'5分', tags:['体幹','背骨'], url:'https://vimeo.com/1080391247/c698800236', img:'images/onaka-sebone.jpg',
    desc:'お腹だけが強くても背骨だけが柔らかくても‥できない！お腹と背骨を同時に使えるトレーニング★'},
-  {id:'v11', cat:'上半身', title:'筋膜ほぐし上半身トレ', dur:'12分', tags:['ほぐし','呼吸','背中・肩'], url:'https://vimeo.com/1089612148/efd8e73d72',
+  {id:'v11', cat:'上半身', title:'筋膜ほぐし上半身トレ', dur:'12分', tags:['ほぐし','呼吸','背中・肩'], url:'https://vimeo.com/1089612148/efd8e73d72', img:'images/kinmaku-johanshin.jpg',
    desc:'まいまいおすすめの「横隔膜呼吸」をマスターすると見た目も機能も変わる◎ガチガチ上半身を動かしてしなやかBODYへ！'},
-  {id:'v12', cat:'下半身', title:'美脚・ヒップアップ', dur:'15分', tags:['足ねじり','お尻','もも前','お腹'], url:'https://vimeo.com/1089614610/73df2b8026',
+  {id:'v12', cat:'下半身', title:'美脚・ヒップアップ', dur:'15分', tags:['足ねじり','お尻','もも前','お腹'], url:'https://vimeo.com/1089614610/73df2b8026', img:'images/bikyaku-hipup.jpg',
    desc:'脚のねじれ取り お尻の活性化！続けると美脚が叶う☆'},
-  {id:'v15', cat:'お悩み別', title:'小顔トレーニング', dur:'7分', tags:['頭皮ほぐし','目元','小顔'], url:'https://vimeo.com/1141282383/f83b64c1e9',
+  {id:'v15', cat:'お悩み別', title:'小顔トレーニング', dur:'7分', tags:['頭皮ほぐし','目元','小顔'], url:'https://vimeo.com/1141282383/f83b64c1e9', img:'images/kogao.jpg',
    desc:'頭皮も繋がっている！ほぐしてから動かしてみてね！スッキリするよ☆'},
-  {id:'v16', cat:'全身', title:'リトラクスポジション', dur:'1分', tags:['呼吸','背骨','くびれ'], url:'https://vimeo.com/1194260292/9493542866',
+  {id:'v16', cat:'全身', title:'リトラクスポジション', dur:'1分', tags:['呼吸','背骨','くびれ'], url:'https://vimeo.com/1194260292/9493542866', img:'images/retrax.jpg',
    desc:'骨盤と胸が長ーく保てるポジション作りの解説と呼吸。この姿勢や使い方ができると、アンダーバストは締まり、くびれが出現⭐︎'},
-  {id:'v17', cat:'お悩み別', title:'お腹集中ピラティス', dur:'7分', tags:['お腹','下腹','くびれ'], url:'https://vimeo.com/1196655717/fe82a0d1ae',
+  {id:'v17', cat:'お悩み別', title:'お腹集中ピラティス', dur:'7分', tags:['お腹','下腹','くびれ'], url:'https://vimeo.com/1196655717/fe82a0d1ae', img:'images/onaka-pilates.jpg',
    desc:'お腹を集中的に！呼吸を止めずに行ってみよう！'},
-  {id:'v19', cat:'全身', title:'全身ストレッチ', dur:'8分', tags:['ストレッチ'], url:'https://vimeo.com/1216389391/2eb0d12791',
+  {id:'v19', cat:'全身', title:'全身ストレッチ', dur:'8分', tags:['ストレッチ'], url:'https://vimeo.com/1216389391/2eb0d12791', img:'images/zenshin-stretch.jpg',
    desc:'全身をまんべんなく伸ばして、凝り固まった身体をゆるめよう。'},
 ];
 
 // トップページのzoomレッスン枠(動画一覧には表示しない)
 const ZOOM_ARCHIVE = {
   id:'zoom', cat:'全身', title:'8月zoomレッスン', dur:'', tags:['zoomアーカイブ'],
-  url:'https://vimeo.com/1216568704/fcde482e6a',
+  url:'https://vimeo.com/1216568704/fcde482e6a', img:'images/zoom-8gatsu.jpg',
   desc:'8月に開催したzoomレッスンのアーカイブです。アーカイブ視聴期限は9/8まで。'
 };
 
@@ -457,14 +458,25 @@ let currentCat = '全身';
 let calYear = 2026, calMonth = 8; // 0-indexed month => September=8
 // 年月日ごとのイベント一覧(複数日程・複数月をまたぐ予定に対応)
 const CAL_EVENTS = [
+  // ---- 2026年8月(過去の記録として残す) ----
+  {y:2026, m:7, d:7,  type:'lesson'}, // 8/7 ライブレッスン
+  {y:2026, m:7, d:8,  type:'lesson'}, // 8/8 zoomレッスン
+  {y:2026, m:7, d:12, type:'meetup'}, // 8/12 オフ会
+  {y:2026, m:7, d:21, type:'lesson'}, // 8/21 ライブレッスン
+  {y:2026, m:7, d:21, type:'limit'},  // 8/7回のアーカイブ期限(同日)
+  {y:2026, m:7, d:27, type:'lesson'}, // 8/27 ライブレッスン
+  {y:2026, m:8, d:4,  type:'limit'},  // 8/21回のアーカイブ期限
+  {y:2026, m:8, d:8,  type:'limit'},  // 8/8 zoomレッスンのアーカイブ期限
+  {y:2026, m:8, d:10, type:'limit'},  // 8/27回のアーカイブ期限
+  // ---- 2026年9月 ----
   {y:2026, m:8, d:1,  type:'lesson'}, // 9/1 ライブレッスン
   {y:2026, m:8, d:10, type:'lesson'}, // 9/10 ライブレッスン
   {y:2026, m:8, d:12, type:'lesson'}, // 9/12 zoomレッスン
   {y:2026, m:8, d:15, type:'limit'},  // 9/1回のアーカイブ期限
-  {y:2026, m:8, d:18, type:'lesson'}, // 9/18 ライブレッスン
+  {y:2026, m:8, d:14, type:'lesson'}, // 9/14 ライブレッスン
   {y:2026, m:8, d:24, type:'lesson'}, // 9/24 ライブレッスン
   {y:2026, m:8, d:24, type:'limit'},  // 9/10回のアーカイブ期限(同日)
-  {y:2026, m:9, d:2,  type:'limit'},  // 9/18回のアーカイブ期限
+  {y:2026, m:8, d:28, type:'limit'},  // 9/14回のアーカイブ期限
   {y:2026, m:9, d:8,  type:'limit'},  // 9/24回のアーカイブ期限
   {y:2026, m:9, d:12, type:'limit'},  // 9/12 zoomレッスンのアーカイブ期限(1ヶ月後)
 ];
@@ -492,13 +504,16 @@ function videoCardHTML(v, log){
   log = log || [];
   const count = log.length;
   const recent = log.slice(-5).reverse().map(d=>formatDate(new Date(d))).join('・');
+  const thumb = v.img
+    ? `<div class="vthumb"><img src="${v.img}" alt="${v.title}" loading="lazy"></div>`
+    : `<div class="vthumb" style="background:${GRADIENTS[v.cat]}">
+        <div class="tags">${v.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        ${v.dur ? `<div class="dur">${v.dur}</div>` : ''}
+        <div class="title">${v.title}</div>
+      </div>`;
   return `
   <div class="vcard">
-    <div class="vthumb" style="background:${GRADIENTS[v.cat]}">
-      <div class="tags">${v.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-      ${v.dur ? `<div class="dur">${v.dur}</div>` : ''}
-      <div class="title">${v.title}</div>
-    </div>
+    ${thumb}
     <div class="vbody">
       <p>${v.desc}</p>
       ${count>0 ? `<p style="font-size:12px; color:var(--teal-deep); margin:-4px 0 10px;">📅 ${count}回視聴・直近: ${recent}${count>5?' 他':''}</p>` : ''}
