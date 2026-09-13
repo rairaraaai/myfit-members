@@ -294,7 +294,7 @@
   <section class="screen active" id="screen-home">
     <div class="notice">
       <div class="dot">!</div>
-      <p><b>9月のzoomレッスン</b>は 9/12(土) 9:00〜10:00 です。アーカイブ視聴期限は <b>10/12</b> まで(配信から1ヶ月)。</p>
+      <p><b>9月のzoomレッスン</b>は 9/12(土) 9:00〜10:00 です。アーカイブ視聴期限は <b>10/9</b> まで(次回zoomレッスンの前日)。</p>
     </div>
     <div class="notice">
       <div class="dot">!</div>
@@ -382,8 +382,8 @@
       <div class="info"><b>アーカイブ視聴期限</b><span>9/24回の視聴期限です</span></div>
     </div>
     <div class="lesson-item">
-      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">12</div><div class="m">OCT</div></div>
-      <div class="info"><b>アーカイブ視聴期限</b><span>9/12 zoomレッスンの視聴期限です(配信から1ヶ月)</span></div>
+      <div class="date-chip" style="background:var(--clay-pale); color:var(--clay);"><div class="d">9</div><div class="m">OCT</div></div>
+      <div class="info"><b>アーカイブ視聴期限</b><span>9/12 zoomレッスンの視聴期限です(次回zoomレッスンの前日)</span></div>
     </div>
   </section>
 
@@ -451,9 +451,9 @@ const VIDEOS = [
 
 // トップページのzoomレッスン枠(動画一覧には表示しない)
 const ZOOM_ARCHIVE = {
-  id:'zoom', cat:'全身', title:'8月zoomレッスン', dur:'', tags:['zoomアーカイブ'],
-  url:'https://vimeo.com/1216568704/fcde482e6a', img:'images/zoom-8gatsu.jpg',
-  desc:'8月に開催したzoomレッスンのアーカイブです。アーカイブ視聴期限は9/8まで。'
+  id:'zoom', cat:'全身', title:'9月zoomレッスン', dur:'', tags:['zoomアーカイブ'],
+  url:'https://vimeo.com/1226131304/81f9acf6f6', img:'images/zoom-9gatsu.jpg',
+  desc:'9月に開催したzoomレッスンのアーカイブです。アーカイブ視聴期限は10/9まで。'
 };
 
 let currentCat = '全身';
@@ -480,7 +480,7 @@ const CAL_EVENTS = [
   {y:2026, m:8, d:24, type:'limit'},  // 9/10回のアーカイブ期限(同日)
   {y:2026, m:8, d:28, type:'limit'},  // 9/14回のアーカイブ期限
   {y:2026, m:9, d:8,  type:'limit'},  // 9/24回のアーカイブ期限
-  {y:2026, m:9, d:12, type:'limit'},  // 9/12 zoomレッスンのアーカイブ期限(1ヶ月後)
+  {y:2026, m:9, d:9,  type:'limit'},  // 9/12 zoomレッスンのアーカイブ期限(次回zoomの前日)
 ];
 
 function go(tab){
