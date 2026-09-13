@@ -450,10 +450,21 @@ const VIDEOS = [
 ];
 
 // トップページのzoomレッスン枠(動画一覧には表示しない)
+// zoomレッスンは毎月内容が変わるので、
+//  - id        : 今月分の記録用(月が変わるとホーム画面の回数はリセットされる)
+//  - totalId   : マイページで全期間の合計を出すための共通ID
+// 毎月の差し替え時は id を 'zoom-2026-10' のように更新する
 const ZOOM_ARCHIVE = {
-  id:'zoom', cat:'全身', title:'9月zoomレッスン', dur:'', tags:['zoomアーカイブ'],
+  id:'zoom-2026-09', totalId:'zoom-total', cat:'全身', title:'9月zoomレッスン', dur:'', tags:['zoomアーカイブ'],
   url:'https://vimeo.com/1226131304/81f9acf6f6', img:'images/zoom-9gatsu.jpg',
   desc:'9月に開催したzoomレッスンのアーカイブです。アーカイブ視聴期限は10/9まで。'
+};
+
+// マイページ用の「毎月のzoomレッスン」まとめカード
+const ZOOM_TOTAL = {
+  id:'zoom-total', cat:'全身', title:'毎月のzoomレッスン', dur:'', tags:['zoomアーカイブ'],
+  url:ZOOM_ARCHIVE.url, img:ZOOM_ARCHIVE.img,
+  desc:'毎月開催しているzoomレッスンのアーカイブです。これまでの視聴回数が積み重なっていきます。'
 };
 
 let currentCat = '全身';
@@ -604,12 +615,18 @@ function getMemberCode(){
 }
 
 function logWatch(id){
+  const now = new Date().toISOString();
   if(!watchLog[id]) watchLog[id] = [];
-  watchLog[id].push(new Date().toISOString());
+  watchLog[id].push(now);
+  // zoomレッスンは累計用のIDにも同時に記録する
+  const video = [...VIDEOS, ZOOM_ARCHIVE].find(v=>v.id===id);
+  if(video && video.totalId){
+    if(!watchLog[video.totalId]) watchLog[video.totalId] = [];
+    watchLog[video.totalId].push(now);
+  }
   saveWatchLog();
   renderVideos();
   renderHomeNew();
-  const video = [...VIDEOS, ZOOM_ARCHIVE].find(v=>v.id===id);
   fetch('/api/log', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
@@ -683,19 +700,27 @@ const MYPAGE_MESSAGES = [
 function renderMypage(){
   const msg = MYPAGE_MESSAGES[Math.floor(Math.random() * MYPAGE_MESSAGES.length)];
   document.getElementById('mypageMessage').innerHTML = `<div class="dot">🌼</div><p>${msg}</p>`;
-  const watchedIds = Object.keys(watchLog).filter(k=>watchLog[k] && watchLog[k].length>0);
-  const watchedVideos = [...VIDEOS, ZOOM_ARCHIVE].filter(v=>watchedIds.includes(v.id));
+  // 累計用ID(zoom-total)は二重カウントになるので集計からは除く
+  const watchedIds = Object.keys(watchLog)
+    .filter(k => watchLog[k] && watchLog[k].length > 0 && k !== ZOOM_TOTAL.id);
   const totalSessions = watchedIds.reduce((sum,id)=>sum + watchLog[id].length, 0);
+
+  // 表示用: 通常の動画 + zoomは月別をまとめて「毎月のzoomレッスン」1枚にする
+  const watchedVideos = VIDEOS.filter(v=>watchedIds.includes(v.id));
+  const hasZoom = watchLog[ZOOM_TOTAL.id] && watchLog[ZOOM_TOTAL.id].length > 0;
+  if(hasZoom) watchedVideos.push(ZOOM_TOTAL);
+
   document.getElementById('mypageStats').innerHTML = `
     <div class="cal-card" style="display:flex; justify-content:space-around; text-align:center;">
       <div><div style="font-family:'Zen Maru Gothic'; font-size:26px; font-weight:900; color:var(--teal-deep);">${totalSessions}</div><div class="sub" style="margin:0;">総視聴回数</div></div>
       <div><div style="font-family:'Zen Maru Gothic'; font-size:26px; font-weight:900; color:var(--clay);">${watchedVideos.length}</div><div class="sub" style="margin:0;">見た本数(種類)</div></div>
     </div>`;
 
-  // 月ごとの視聴回数を集計(YYYY-MM単位)
+  // 月ごとの視聴回数を集計(YYYY-MM単位)※累計用IDは二重カウントになるので除く
   const monthCounts = {};
-  Object.values(watchLog).forEach(dates=>{
-    dates.forEach(d=>{
+  Object.keys(watchLog).forEach(id=>{
+    if(id === ZOOM_TOTAL.id) return;
+    watchLog[id].forEach(d=>{
       const dt = new Date(d);
       const key = `${dt.getFullYear()}/${dt.getMonth()+1}`;
       monthCounts[key] = (monthCounts[key]||0) + 1;
